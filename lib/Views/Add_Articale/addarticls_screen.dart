@@ -1,4 +1,5 @@
 import 'package:ipsdelivery/Controller/Extend/extend_Screen.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class AddArticleScreen extends StatefulWidget {
   const AddArticleScreen({Key? key}) : super(key: key);
@@ -10,6 +11,13 @@ class AddArticleScreen extends StatefulWidget {
 class _AddArticleScreenState extends State<AddArticleScreen> {
 
   String SelectedCurrentValue ="Change Status";
+
+  String _data = '';
+
+ _startBarcodeScanStream() async {
+   return await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666', 'Cancel', true, ScanMode.BARCODE).then((value) => setState(()=>_data = value));
+  }
   @override
   Widget build(BuildContext context) {
     final data =MediaQuery.of(context);
@@ -24,24 +32,30 @@ class _AddArticleScreenState extends State<AddArticleScreen> {
             children:  [
               SizedBox(height: data.size.height * 0.01,),
               const Text('Article Id',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-              const TextField(
-                decoration: InputDecoration(
-                  hintText: 'Write Some',
-                  hintStyle: TextStyle(fontSize: 18),
-
-                ),
-              ),
+              SizedBox(height: data.size.height * 0.01,),
+               Container(
+                 color: Colors.black12,
+                 height: data.size.height * 0.060,
+                   width: double.infinity,
+                   child: Padding(
+                     padding: const EdgeInsets.only(left: 7,top: 13),
+                     child: Text(_data,style: const TextStyle(fontSize: 15,fontWeight: FontWeight.bold),),
+                   )),
               SizedBox(height: data.size.height * 0.02,),
-              Container(
-                width: double.infinity,
-                height: 35,
-                alignment: Alignment.center,
-                color: Colors.black12,
-
-                child:  const Text("SCAN ARTICLE",
-                    style: TextStyle(fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                    )),
+              InkWell(
+                onTap: (){
+                  _startBarcodeScanStream();
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 35,
+                  alignment: Alignment.center,
+                  color: Colors.black12,
+                  child:  const Text("SCAN ARTICLE",
+                      style: TextStyle(fontSize: 13,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
               ),
               SizedBox(height: data.size.height * 0.04,),
               const Text('Status',style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
