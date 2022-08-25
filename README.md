@@ -38,5 +38,5 @@ Dart, Flutter, AdobeXd...
 
 
 ## 🚀 About Me
-I'm a full stack Flutter developer...
+I'm a full stack Flutter developer..
 
