@@ -10,7 +10,6 @@ export  'package:ipsdelivery/Views/Send_Out_for_Delivery/sendoutdelivery_Screen.
 export 'package:ipsdelivery/Views/Add_Articale/addarticls_screen.dart';
 export 'package:ipsdelivery/Views/Delivered/delivered_Screen.dart';
 export  'package:ipsdelivery/Views/Retained_to_Store/retainedstore_Screen.dart';
-export  'package:url_launcher/url_launcher.dart';
 //Model
 
 
