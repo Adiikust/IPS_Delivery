@@ -14,7 +14,7 @@ class AddArticleScreen extends StatefulWidget {
 }
 
 class _AddArticleScreenState extends State<AddArticleScreen> {
-late Box<String> khan;
+late Box<String> storeListData;
   //final _formKey = GlobalKey<FormState>();
  final TextEditingController _articleData =TextEditingController();
  final TextEditingController _deliveryOption =TextEditingController();
@@ -29,7 +29,7 @@ late Box<String> khan;
   @override
   void initState(){
    super.initState();
-   khan = Hive.box<String>("adnan");
+   storeListData = Hive.box<String>("adnan");
   }
 
   @override
@@ -120,7 +120,7 @@ late Box<String> khan;
                 onTap: (){
                   final key = _articleData.text;
                   final value = _deliveryOption.text;
-                  khan.put(key, value);
+                  storeListData.put(key, value);
                   _deliveryOption.clear();
                   _articleData.clear();
 
@@ -138,7 +138,7 @@ late Box<String> khan;
                 ),
               ),
                 SizedBox(height: data.size.height * 0.04,),
-                ValueListenableBuilder(valueListenable: khan.listenable(),
+                ValueListenableBuilder(valueListenable: storeListData.listenable(),
                     builder: (context,Box<String>adnan,_)
                 {
                   return ListView.builder(
@@ -146,45 +146,22 @@ late Box<String> khan;
                       itemBuilder: (context,index){
                         final key = adnan.keys.toList()[index];
                         final value = adnan.get(key);
-                        return InkWell(
-                          onTap: (){
-
-                          },
-                          child: Card(
-                            child: ListTile(
-                              title: Text("$key",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                              subtitle: Text("$value",style: const TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                              trailing: Text(_data,style: const TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
-                            ),
+                        return Card(
+                          child: ListTile(
+                            title: Text("$key",style: const TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                            subtitle: Text("$value",style: const TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                            trailing: InkWell(
+                              onTap: (){
+                                storeListData.delete(key);
+                              },
+                                child: const Icon(Icons.delete),),
                           ),
                         );
                       },
-                       itemCount: khan.keys.toList().length,
+                       itemCount: storeListData.keys.toList().length,
                   );
-
                 }
                 ),
-                SizedBox(height: data.size.height * 0.04,),
-                InkWell(
-                  onTap: (){
-                    final key = _articleData.text;
-                    khan.delete(key);
-                    _articleData.clear();
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    height: 35,
-                    alignment: Alignment.center,
-                    color: Colors.black12,
-
-                    child:  const Text("Delete",
-                        style: TextStyle(fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ),
-                ),
-
-
             ],
           ),
       ),
